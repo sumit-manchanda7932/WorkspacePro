@@ -1,3 +1,4 @@
+"use client"
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
@@ -18,6 +19,20 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-export const app = initializeApp(firebaseConfig);
-export const db = getFirestore(app);
-const analytics = getAnalytics(app);
+
+let analytics; let db;let app;
+if (firebaseConfig?.projectId) {
+  // Initialize Firebase
+    app = initializeApp(firebaseConfig);
+
+  if (app.name && typeof window !== 'undefined') {
+    analytics = getAnalytics(app);
+  }
+
+  // Access Firebase services using shorthand notation
+  db = getFirestore();
+}
+// export const app = initializeApp(firebaseConfig);
+// export const db = getFirestore(app);
+export {app,db};
+// const analytics = getAnalytics(app);
